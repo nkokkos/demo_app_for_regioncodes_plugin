@@ -1,12 +1,20 @@
 <%= javascript_include_tag :defaults %>
+<p>
+<label for="code">Νομός:</label>
+<br>
 <%= collection_select(nil, :code,  @nomos,  :code, :description,
                       {:prompt   => "Επιλέξτε έναν νομό"},
                       {:onchange => "#{remote_function(:url  => {:action => "update_dhmotiko_diamerisma"},
                                                        :with => "'code='+value")}"}) %>
-<br/>
-Δημοτικό Διαμέρισμα
-<div id="dhmotiko_diamerisma"><%= render :partial => 'dhmotiko_diamerisma', :object => @dhmotiko_diamerisma %></div>
-<div id="dhmos"><%= render :partial => 'dhmos', :object => @dhmos %></div>
+</p>
+<p>
+<div id="dhmotiko_diamerisma"><%= render :partial => 'dhmotiko_diamerisma', :object => @dhmotiko_diamerisma %>
+</div>
+</p>
+<p>
+<div id="dhmos"><%= render :partial => 'dhmos', :object => @dhmos %>
+</div>
+</p>
 
 
 

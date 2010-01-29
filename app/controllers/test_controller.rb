@@ -2,14 +2,15 @@ class TestController < ApplicationController
 
   def index
 
-    @nomos  =  Regioncode.nomos
+    @nomos  =  Regioncode.nomos("") # need to pass an empty string to return all regions
     @dhmotiko_diamerisma = []
     @dhmos = []
 
   end
 
   def update_dhmotiko_diamerisma
-   
+    
+    @nomos  =  Regioncode.nomos(params[:code])
     @dhmotiko_diamerisma = Regioncode.dhmotiko_diamerisma(params[:code])
     @dhmos = []
 

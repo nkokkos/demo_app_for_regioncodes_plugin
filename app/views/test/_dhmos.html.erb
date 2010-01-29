@@ -1,2 +1,4 @@
+<label for="code">Δημος/Κοινότητα:</label>
+<br>
 <%= collection_select(nil, :code, @dhmos, :code, :description,
                      {:prompt   => "Επιλέξτε δήμο/κοινότητα"}) %>
