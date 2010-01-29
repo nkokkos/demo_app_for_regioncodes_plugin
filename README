@@ -1,0 +1,8 @@
+Ruby on Rails application to test regioncodes plugin
+Implemented dynamic select menus from this great post:
+http://pullmonkey.com/2008/03/30/dynamic-select-boxes-ruby-on-rails/
+
+How to use this app.
+
+Just download it and start it as you know (if you use Rails)
+

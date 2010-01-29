@@ -1,0 +1,8 @@
+<%= collection_select(nil, :code, @dhmotiko_diamerisma, :code, :description,
+                     {:prompt   => "Επιλέξτε έναν δημο/οικισμό"},
+                     {:onchange => "#{remote_function(:url  => {:action => "update_dhmos"},
+                                                      :with => "'code='+value")}"}) %>
+<br/>
+Δημος
+
+
