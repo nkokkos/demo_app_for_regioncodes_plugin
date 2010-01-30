@@ -3,7 +3,7 @@
 <label for="region">Γεωγραφικό Διαμέρισμα:</label>
 <br>
 <%= collection_select(nil, :region,  @region,  :code, :description,
-                      {:prompt   => "Επιλέξτε έναν νομό"},
+                      {:prompt   => "Επιλέξτε Διαμέρισμα"},
                       {:onchange => "#{remote_function(:url  => {:action => "update_department"},
                                                        :with => "'region='+value")}"}) %>
 </p>

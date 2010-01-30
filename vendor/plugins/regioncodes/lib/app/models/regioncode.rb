@@ -43,27 +43,41 @@ class Regioncode < ActiveRecord::Base
     # for code_index = 5, you get back the administrative department (Διοικητικό Διαμέρισμα)
     # for code_index = 6, you get back the commune (Οικισμός)
     
+    # ActiveRecord is fine but I use find_by_sql 'cause I believe sql engine should do most the 
+    # work
+
+
+    # the implementation is far from perfect but it works.
+    # you need to follow some rules:
+    # If you want to get communes, you must pass as a parameter to self.commune 
+    # a code that refers to a district
+    # and if you want to get districts you need to pass as a parameter to self.municipality a code
+    # that refers to a department, etc..
+
+
     def self.geographical_region(str="")
        # class method returns all the geographical regions if you call it without parameters
        # e.g myRegions = Regioncode.geographical_region(), will return all the regions (that should  be ten)
        # if you call it with parameters, the parameter you pass is the code 
        # e,g, myRegions = Regioncode.geographical_region("01010101"), will give you -> "0" -> ΛΟΙΠΗ ΣΤΕΡΕΑ ΕΛΛΑΣ ΚΑΙ ΕΥΒΟΙΑ
-         if str.empty? 
+
+      if str.empty? 
             Regioncode.find_by_sql('select description, code from regioncodes where code_index = 1')
-          else
+      elsif str.size == 1 # there is only one character (you passed "0", for example) 
             search = str.to_s + "%"
             Regioncode.find_by_sql(["select description, code from regioncodes where code_index = 1 and code like ? ", search])
-         end
+      elsif str.size > 1 
+            search = str[0].to_s + "%"
+            Regioncode.find_by_sql(["select description, code from regioncodes where code_index = 1 and code like ? ", search])
+      end
           
-    end
-   
+    end #def self.geographical_region(str="") 
+
     def self.department(str="")
       if str.empty? 
       	Regioncode.find_by_sql('select description, code from regioncodes where code_index = 2')
-      else
-        str = str.to_s
-        search = str[0..1]     # grab first 2 characters
-        search = search + "%"
+      elsif str.size >= 1  # department is defined by 2 character code, for example 01;ΝΟΜΟΣ ΑΙΤΩΛΙΑΣ ΚΑΙ ΑΚΑΡΝΑΝΙΑΣ; you passed a two character code or a 8 character code of which you want to know the department
+        search = str[0..1].to_s + "%"
         Regioncode.find_by_sql(["select description, code from regioncodes where code_index = 2 and code like ? ", search])
       end
     end
@@ -71,34 +85,34 @@ class Regioncode < ActiveRecord::Base
     def self.municipality(str="")
       if str.empty?
         Regioncode.find_by_sql("select description, code from regioncodes where code_index = 4")
-      else
-       str = str.to_s
-       search = str[0..1]      # grap 2 first characters but different code_level (=4)
-       search = search + "%"
-       Regioncode.find_by_sql(["select description, code from regioncodes where code_index = 4 and code like ? ", search])
+      elsif str.size >= 1 
+        str = str.to_s
+        search = str[0..1]      # grap 2 first characters but different code_level (=4)
+        search = search + "%"
+        Regioncode.find_by_sql(["select description, code from regioncodes where code_index = 4 and code like ? ", search])
       end
     end 
 
     def self.administrative_district(str="")
       if str.empty? 
         Regioncode.find_by_sql("select description, code from regioncodes where code_index = 5")
-      else
-       str = str.to_s
-       search = str[0..4]    # grap first 4 characters
-       search = search + "%"
-       Regioncode.find_by_sql(["select description, code from regioncodes where code_index = 5 and code like ? ", search])
+      elsif str.size == 8     # district has always an 8 character code
+        str = str.to_s
+        search = str[0..4]    # grap first 4 characters
+        search = search + "%"
+        Regioncode.find_by_sql(["select description, code from regioncodes where code_index = 5 and code like ? ", search])
       end
     end 
     
     def self.commune(str="")
        if str.empty? 
-        Regioncode.find_by_sql("select description, code from regioncodes where code_index = 6")
-       else
-        str = str.to_s
-        search = str[0..5]    # grab first 5 characters but use different code_level (=6)
-        search = search + "%"
-        Regioncode.find_by_sql(["select description, code from regioncodes where code_index = 6 and code like ? ", search])
-      end
-    end
+         Regioncode.find_by_sql("select description, code from regioncodes where code_index = 6")
+       elsif str.size == 8     #  commune has always an 8 character code
+         str = str.to_s
+         search = str[0..5]    #  grab first 5 characters but use different code_level (=6)
+         search = search + "%"
+         Regioncode.find_by_sql(["select description, code from regioncodes where code_index = 6 and code like ? ", search])
+       end
+     end
     
 end 
