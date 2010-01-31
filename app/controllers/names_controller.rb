@@ -13,8 +13,7 @@ class NamesController < ApplicationController
   # GET /names/1
   # GET /names/1.xml
   def show
-    
-    # get the geographical_region code for this person:    
+        
     @name = Name.find(params[:id])
     
    # get the geographical_region code for this person: 
@@ -23,7 +22,7 @@ class NamesController < ApplicationController
       @name.geographical_region = temp.description
     end
     
-      # get the department code for this person: 
+   # get the department code for this person: 
     if not @name.department.empty?
       temp = Regioncode.find_by_code @name.department
       @name.department = temp.description
@@ -40,7 +39,9 @@ class NamesController < ApplicationController
   # GET /names/new
   # GET /names/new.xml
   def new
+    
     @name = Name.new
+   
     @regions = Regioncode.geographical_region().map { |u| [u.description, u.code] }
     # just testing here
     @department = Regioncode.department().map { |u| [u.description, u.code] }
