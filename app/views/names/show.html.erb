@@ -1,0 +1,43 @@
+<p>
+  <b>Firstname:</b>
+  <%=h @name.firstname %>
+</p>
+
+<p>
+  <b>Lastname:</b>
+  <%=h @name.lastname %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%=h @name.address %>
+</p>
+
+<p>
+  <b>Geographical region:</b>
+  <%=h @name.geographical_region %>
+</p>
+
+<p>
+  <b>Department:</b>
+  <%=h @name.department %>
+</p>
+
+<p>
+  <b>Municipality:</b>
+  <%=h @name.municipality %>
+</p>
+
+<p>
+  <b>Admin district:</b>
+  <%=h @name.admin_district %>
+</p>
+
+<p>
+  <b>Commune:</b>
+  <%=h @name.commune %>
+</p>
+
+
+<%= link_to 'Edit', edit_name_path(@name) %> |
+<%= link_to 'Back', names_path %>

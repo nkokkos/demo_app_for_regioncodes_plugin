@@ -9,7 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1) do
+ActiveRecord::Schema.define(:version => 20100205105610) do
+  
+  create_table "names", :force => true do |t|
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "address"
+    t.string   "geographical_region"
+    t.string   "department"
+    t.string   "municipality"
+    t.string   "admin_district"
+    t.string   "commune"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "regioncodes", :force => true do |t|
     t.integer "code_index"

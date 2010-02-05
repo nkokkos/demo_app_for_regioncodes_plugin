@@ -1,0 +1,44 @@
+<h1>Editing name</h1>
+
+<% form_for(@name) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :firstname %><br />
+    <%= f.text_field :firstname %>
+  </p>
+  <p>
+    <%= f.label :lastname %><br />
+    <%= f.text_field :lastname %>
+  </p>
+  <p>
+    <%= f.label :address %><br />
+    <%= f.text_field :address %>
+  </p>
+  <p>
+    <%= f.label :geographical_region %><br />
+    <%= f.text_field :geographical_region %>
+  </p>
+  <p>
+    <%= f.label :department %><br />
+    <%= f.text_field :department %>
+  </p>
+  <p>
+    <%= f.label :municipality %><br />
+    <%= f.text_field :municipality %>
+  </p>
+  <p>
+    <%= f.label :admin_district %><br />
+    <%= f.text_field :admin_district %>
+  </p>
+  <p>
+    <%= f.label :commune %><br />
+    <%= f.text_field :commune %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @name %> |
+<%= link_to 'Back', names_path %>

@@ -14,7 +14,7 @@ class TestController < ApplicationController
     
    #  @region =  Regioncode.geographical_region(params[:region]) 
      @department = Regioncode.department(params[:region])   # you get department from region
-     @municipality = Regioncode.municipality(params[:region]) 
+     @municipality = []
      @admin_district = []
      @commune = []
     
