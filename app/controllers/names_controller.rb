@@ -14,9 +14,10 @@ class NamesController < ApplicationController
   # GET /names/1.xml
   def show
         
+    # grab all the parameters/attributes for this person
     @name = Name.find(params[:id])
     
-   # get the geographical_region code for this person: 
+   # get the geographical_region code for this person, if he/she has no code do nothing: 
     if not @name.geographical_region.empty?
       temp = Regioncode.find_by_code @name.geographical_region
       @name.geographical_region = temp.description
@@ -28,7 +29,26 @@ class NamesController < ApplicationController
       @name.department = temp.description
     end
     
-    # more to do...
+    # get the municipality code for this person: 
+    if not @name.municipality.empty?
+      temp = Regioncode.find_by_code @name.municipality
+      @name.municipality = temp.description
+    end
+
+    # get the administrative_district code for this person: 
+    if not @name.admin_district.empty?
+      temp = Regioncode.find_by_code @name.admin_district
+      @name.admin_district = temp.description
+    end
+    
+     # get the communes code for this person: 
+    if not @name.commune.empty?
+      temp = Regioncode.find_by_code @name.commune
+      @name.commune = temp.description
+    end
+    
+    
+    
     
     respond_to do |format|
       format.html # show.html.erb
@@ -41,9 +61,13 @@ class NamesController < ApplicationController
   def new
     
     @name = Name.new
-   
-    @regions = Regioncode.geographical_region().map { |u| [u.description, u.code] }
+    
+  #  @regions = Regioncode.geographical_region().map { |u| [u.description, u.code] }
+    
+    @regions = Regioncode.geographical_region()
+    
     # just testing here
+    
     @department = Regioncode.department().map { |u| [u.description, u.code] }
 
     respond_to do |format|
@@ -55,6 +79,10 @@ class NamesController < ApplicationController
   # GET /names/1/edit
   def edit
     @name = Name.find(params[:id])
+    
+    @regions = Regioncode.geographical_region()
+    
+    
   end
 
   # POST /names
@@ -102,4 +130,11 @@ class NamesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def update_department
+  
+  end
+  
+  
+  
 end

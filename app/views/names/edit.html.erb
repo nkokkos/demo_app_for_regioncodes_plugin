@@ -15,10 +15,17 @@
     <%= f.label :address %><br />
     <%= f.text_field :address %>
   </p>
-  <p>
+  
+    <p>
+    (name: Object Name)
+    (geographical_region: attribute name)
+    (regions:collection)
     <%= f.label :geographical_region %><br />
-    <%= f.text_field :geographical_region %>
+    <%= collection_select(:name, :geographical_region, @regions, :code, :description, { :prompt => 'blank' }, 
+    {:onchange => "#{remote_function(:url  => {:action => "update_department"},
+                                                       :with => "'geographical_region='+value")}"}  ) %>
   </p>
+  
   <p>
     <%= f.label :department %><br />
     <%= f.text_field :department %>

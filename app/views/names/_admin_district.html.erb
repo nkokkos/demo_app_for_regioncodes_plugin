@@ -1,0 +1,10 @@
+<p>
+<label for="admin_district">Διοικητικό Διαμέρισμα:</label>
+<br>
+<%= collection_select(nil, :admin_district, @admin_district, :code, :description,
+                     {:prompt   => "Επιλέξτε ένα Τ.Διαμέρισμα"},
+                     {:onchange => "#{remote_function(:url  => {:action => "update_commune"},
+                                                      :with => "'admin_district='+value")}"}) %>
+<br/>
+
+
