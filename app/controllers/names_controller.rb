@@ -115,21 +115,20 @@ end
 
   # GET /names/1/edit
   def edit
+    
     @name = Name.find(params[:id])
-    
-    temp_region = Regioncode.geographical_region(@name.geographical_region)
-    
-    
-    @regions = Regioncode.geographical_region()
-   # @department = Regioncode.department(@name.department)
-    @department = Regioncode.department(temp_region) # get all the departments for this region
-    
-    @municipality = Regioncode.municipality(@name.municipality.to_s)
-    @admin_district = Regioncode.administrative_district(@name.admin_district.to_s)
-    @commune = Regioncode.commune(@name.commune.to_s) 
-    
-    
+
+
+    @regions = Regioncode.geographical_region() # get all the regions
+    @department = Regioncode.department(@name.geographical_region) # get the departments for
+								   # the region selected
+
+    @municipality = Regioncode.municipality(@name.department) 
+    @admin_district = Regioncode.administrative_district(@name.municipality)
+    @commune = Regioncode.commune(@name.admin_district) 
+
   end
+
 
   # POST /names
   # POST /names.xml
