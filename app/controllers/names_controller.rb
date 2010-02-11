@@ -1,14 +1,52 @@
 class NamesController < ApplicationController
   # GET /names
   # GET /names.xml
+  
   def index
-    @names = Name.all
+  
+   @names = Name.all
+  
+    #loop through all the attributes of each object and replace code_id with description
+    @names.each do |n| 
+    
+      if not n.geographical_region.empty?
+        temp = Regioncode.find_by_code n.geographical_region
+        n.geographical_region = temp.description
+      end
+      
+      # get the department code for this person: 
+     if not n.department.empty?
+      temp = Regioncode.find_by_code n.department
+      n.department = temp.description
+    end
+    
+    # get the municipality code for this person: 
+    if not n.municipality.empty?
+      temp = Regioncode.find_by_code n.municipality
+      n.municipality = temp.description
+    end
+
+    # get the administrative_district code for this person: 
+    if not n.admin_district.empty?
+      temp = Regioncode.find_by_code n.admin_district
+      n.admin_district = temp.description
+    end
+    
+     # get the communes code for this person: 
+    if not n.commune.empty?
+      temp = Regioncode.find_by_code n.commune
+      n.commune = temp.description
+    end
+    
+  end
+
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @names }
     end
-  end
+  
+end
 
   # GET /names/1
   # GET /names/1.xml
@@ -51,7 +89,10 @@ class NamesController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @name }
     end
+    
   end
+  
+  
 
   # GET /names/new
   # GET /names/new.xml
@@ -59,13 +100,12 @@ class NamesController < ApplicationController
     
     @name = Name.new
     
-  #  @regions = Regioncode.geographical_region().map { |u| [u.description, u.code] }
-    
     @regions = Regioncode.geographical_region()
     @department = []
     @municipality = []
     @admin_district = []
     @commune = []
+
 
     respond_to do |format|
       format.html # new.html.erb
@@ -76,7 +116,12 @@ class NamesController < ApplicationController
   # GET /names/1/edit
   def edit
     @name = Name.find(params[:id])
-    @regions = Regioncode.geographical_region()
+    
+    @regions = Regioncode.geographical_region(@name.geographical_region.to_s)
+    @department = Regioncode.department(@name.department.to_s)
+    @municipality = Regioncode.municipality(@name.municipality.to_s)
+    @admin_district = Regioncode.administrative_district(@name.admin_district.to_s)
+    @commune = Regioncode.commune(@name.commune.to_s) 
     
     
   end
@@ -128,9 +173,7 @@ class NamesController < ApplicationController
   end
   
   
-  
-  
-    def update_department
+  def update_department
     
      @department = Regioncode.department(params[:geographical_region])   # you get department from region
      @municipality = []
@@ -143,11 +186,13 @@ class NamesController < ApplicationController
       page.replace_html 'admin_district', :partial => 'admin_district', :object => @admin_district
       page.replace_html 'commune', :partial => 'commune', :object => @commune
     end
+  
   end
   
 
  def update_municipality
-    @municipality = Regioncode.municipality(params[:department])
+   
+   @municipality = Regioncode.municipality(params[:department])
     @admin_district = []
     @commune = []
     
@@ -156,6 +201,7 @@ class NamesController < ApplicationController
      page.replace_html 'admin_district', :partial => 'admin_district', :object => @admin_district
      page.replace_html 'commune', :partial => 'commune', :object => @commune
   end
+
 end
 
 
@@ -168,6 +214,7 @@ end
      page.replace_html 'admin_district', :partial => 'admin_district', :object => @admin_district
      page.replace_html 'commune', :partial => 'commune', :object => @commune
    end
+
 end
  
    
