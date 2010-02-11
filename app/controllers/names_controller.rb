@@ -47,9 +47,6 @@ class NamesController < ApplicationController
       @name.commune = temp.description
     end
     
-    
-    
-    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @name }
@@ -65,10 +62,10 @@ class NamesController < ApplicationController
   #  @regions = Regioncode.geographical_region().map { |u| [u.description, u.code] }
     
     @regions = Regioncode.geographical_region()
-    
-    # just testing here
-    
-    @department = Regioncode.department().map { |u| [u.description, u.code] }
+    @department = []
+    @municipality = []
+    @admin_district = []
+    @commune = []
 
     respond_to do |format|
       format.html # new.html.erb
@@ -79,7 +76,6 @@ class NamesController < ApplicationController
   # GET /names/1/edit
   def edit
     @name = Name.find(params[:id])
-    
     @regions = Regioncode.geographical_region()
     
     
@@ -131,10 +127,57 @@ class NamesController < ApplicationController
     end
   end
   
-  def update_department
   
+  
+  
+    def update_department
+    
+     @department = Regioncode.department(params[:geographical_region])   # you get department from region
+     @municipality = []
+     @admin_district = []
+     @commune = []
+    
+    render :update do |page|
+      page.replace_html 'department', :partial => 'department', :object => @department
+      page.replace_html 'municipality', :partial => 'municipality', :object => @municipality
+      page.replace_html 'admin_district', :partial => 'admin_district', :object => @admin_district
+      page.replace_html 'commune', :partial => 'commune', :object => @commune
+    end
   end
   
-  
-  
+
+ def update_municipality
+    @municipality = Regioncode.municipality(params[:department])
+    @admin_district = []
+    @commune = []
+    
+    render :update do |page|
+     page.replace_html 'municipality', :partial => 'municipality', :object => @municipality
+     page.replace_html 'admin_district', :partial => 'admin_district', :object => @admin_district
+     page.replace_html 'commune', :partial => 'commune', :object => @commune
+  end
+end
+
+
+  def update_admin_district
+    
+     @admin_district= Regioncode.administrative_district(params[:municipality])
+     @commune = []
+    
+    render :update do |page|
+     page.replace_html 'admin_district', :partial => 'admin_district', :object => @admin_district
+     page.replace_html 'commune', :partial => 'commune', :object => @commune
+   end
+end
+ 
+   
+  def update_commune
+    
+    @commune = Regioncode.commune(params[:admin_district] )  # you get commune from admin_district
+     
+    render :update do |page|
+      page.replace_html 'commune', :partial => 'commune', :object => @commune
+    end
+  end
+
 end

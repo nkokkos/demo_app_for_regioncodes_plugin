@@ -1,4 +1,4 @@
-<h1>New name</h1>
+<%= javascript_include_tag :defaults %>
 
 <% form_for(@name) do |f| %>
   <%= f.error_messages %>
@@ -16,32 +16,47 @@
     <%= f.text_field :address %>
   </p>
   
+<fieldset>
+<legend>
+Address:
+</legend>
   <p>
-    <%= f.label :geographical_region %><br />
-    <%= collection_select(:name, :geographical_region, @regions, :code, :description, { :prompt => 'blank' }, 
-    {:onchange => "#{remote_function(:url  => {:action => "update_department"},
-                                                       :with => "'geographical_region='+value")}"}  ) %>
+  <%= f.label :geographical_region %><br />
+  <%= collection_select(:name, :geographical_region,  @regions,  :code, :description,
+                      {:prompt   => "ffff"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_department"},
+                                                       :with => "'geographical_region='+value")}"}) %>
   </p>
-  
+ <p>
+<%= f.label :department %><br />
+ <div id="department">
+ <%= render :partial => 'department', :object => @department %>
+ </div>
+ </p>
   <p>
-    <%= f.label :department %><br />
-    <%= f.select(:department, @department) %>
-  </p>
-  <p>
-    <%= f.label :municipality %><br />
-    <%= f.text_field :municipality %>
+ <%= f.label :municipality %><br />
+ <div id="municipality">
+ <%= render :partial => 'municipality', :object => @municipality %>
+ </div>
   </p>
   <p>
     <%= f.label :admin_district %><br />
-    <%= f.text_field :admin_district %>
+  <div id="admin_district">
+ <%= render :partial => 'admin_district', :object => @admin_district %>
+ </div>
   </p>
   <p>
     <%= f.label :commune %><br />
-    <%= f.text_field :commune %>
+     <div id="commune">
+ <%= render :partial => 'commune', :object => @commune %>
+ </div>
   </p>
+  </fieldset>
   <p>
     <%= f.submit 'Create' %>
   </p>
 <% end %>
+
+
 
 <%= link_to 'Back', names_path %>

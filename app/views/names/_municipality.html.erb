@@ -1,10 +1,7 @@
-<p>
-<label for="municipality">Δήμος/Κοινότητα:</label>
-<br>
-<%= collection_select(nil, :municipality, @municipality, :code, :description,
+<%= collection_select(:name, :municipality, @municipality, :code, :description,
                      {:prompt   => "Επιλέξτε ένα δήμο/κοινότητα"},
                      {:onchange => "#{remote_function(:url  => {:action => "update_admin_district"},
                                                       :with => "'municipality='+value")}"}) %>
-<br/>
+
 
 

@@ -1,4 +1,2 @@
-<label for="commune">Οικισμός:</label>
-<br>
-<%= collection_select(nil, :commune, @commune, :code, :description,
+<%= collection_select(:name, :commune, @commune, :code, :description,
                      {:prompt   => "Επιλέξτε Οικισμό"}) %>
