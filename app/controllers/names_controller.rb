@@ -117,8 +117,13 @@ end
   def edit
     @name = Name.find(params[:id])
     
-    @regions = Regioncode.geographical_region(@name.geographical_region.to_s)
-    @department = Regioncode.department(@name.department.to_s)
+    temp_region = Regioncode.geographical_region(@name.geographical_region)
+    
+    
+    @regions = Regioncode.geographical_region()
+   # @department = Regioncode.department(@name.department)
+    @department = Regioncode.department(temp_region) # get all the departments for this region
+    
     @municipality = Regioncode.municipality(@name.municipality.to_s)
     @admin_district = Regioncode.administrative_district(@name.admin_district.to_s)
     @commune = Regioncode.commune(@name.commune.to_s) 
